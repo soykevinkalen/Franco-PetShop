@@ -9,34 +9,61 @@
   <link rel="stylesheet" href="../styles/style.css" />
 </head>
 <body id="farmacia">
-    <header class="farmacia">
-        <nav class="navbar navbar-expand-lg">
-          <div class="container-fluid align-items-center d-flex mt-5 div-nav">
-              <img class="imgnav" src="../assets/FRANCO (4) (2).png" alt="logo">
-              <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
-                <div class="navbar-nav a-hover">
-                  <a class="nav-link active" aria-current="page" href="../index.html">Inicio</a>
-                  <a class="nav-link" href="./juguetes.html">Juguetes</a>
-                  <a class="nav-link" href="#">Farmacia</a>
-                  <a class="nav-link" href="./contacto.html">Contacto</a>
-                </div>
-              </div>
+    <header class="farmacia d-flex flex-column justify-content-between">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <div class="container-fluid align-items-center d-flex div-nav mt-5 pt-2 justify-content-around">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <img class="imgnav" src="../assets/FRANCO (4) (2).png" alt="logo">
+            <div class="collapse navbar-collapse pb-2 justify-content-end" id="navbarTogglerDemo01">
+              <ul class="navbar-nav mr-auto mb-2 mb-lg-0 d-flex align-items-center">
+                <li class="nav-item ">
+                  <a class="nav-link" aria-current="page" href="../index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " href="./juguetes.html">Jugueteria</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Farmacia</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="./contacto.html">Contacto</a>
+                </li>
+                <li class="nav-item">
+                  <button class="btn btn-primary navboton" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    Carrito              
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </nav>
-    </header>
-    <div class="w-100 cajaAnimada d-flex align-items-center justify-content-center">
-        <div id="menu">
+        <div class="w-100 cajaAnimada d-flex align-items-center justify-content-center">
           <h1 class="principal text-center">FARMACIA</h1>
         </div>
+    </header>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h2 id="offcanvasRightLabel">Carrito</h2>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <hr>
+        <ul class="list-group todosLosProductos"></ul>
+        <hr>
+        <p class="text-right">Total: $ <span id="total" class="total"></span></p>
+        <button class="btn btn-danger boton-vaciar">Vaciar</button>
+      </div>
     </div>
-    <div class="d-flex">
-        <main id="items" class="d-flex flex-wrap main"></main>
-        <section class="col-sm-4 carrito">
+    <div class="d-flex d-contenedor flex-wrap-reverse">
+        <main id="items" class="d-flex flex-wrap main col-9"></main>
+        <section class="col-3 carrito">
             <h2>Carrito</h2>
-            <ul id="carrito" class="list-group"></ul>
+            <ul class="list-group todosLosProductos"></ul>
             <hr>
-            <p class="text-right">Total: $ <span id="total"></span></p>
-            <button id="boton-vaciar" class="btn btn-danger">Vaciar</button>
+            <p class="text-right">Total: $ <span id="total" class="total"></span></p>
+            <button class="btn btn-danger boton-vaciar">Vaciar</button>
         </section>
     </div> 
     <footer class="inicio">

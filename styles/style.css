@@ -74,7 +74,9 @@ nav img, footer img{
     justify-content: space-between;
 
 } */
-
+li button.navboton{
+    font-size: 1.4em!important;
+}
 nav div div ul li a{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: rgb(0, 0, 0);
@@ -100,7 +102,19 @@ nav div div ul li a:focus{
     main.mainContacto div.div-form{
         order: -1;
     }
-
+    .d-contenedor{
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
+    }
+    .main{
+        width: 100%!important;
+        padding-left: 0px!important;
+    }
+    .carrito{
+        width: 100%!important;
+        padding-left: 1em;
+    }
 }
 
 @media (min-width: 630px){
@@ -110,6 +124,7 @@ nav div div ul li a:focus{
     main.main div{
         max-width: 15vw;
     }
+    
 }
 
 /* main.mainContacto textarea,
@@ -195,10 +210,11 @@ section.carrito{
 
 footer{
     width: auto;
+    background-color: #2f3136;
 }
 
 iframe{
-    border-top: 2em solid #2f3136;
+    border-top: 2em solid rgb(47, 49, 54);
     width: 100%;
 }
 
@@ -246,6 +262,7 @@ footer.inicio div.inicio{
     border-top: 2em solid #2f3136;
     /* border-bottom: 2em solid black; */
     height: 100%;
+    
 }
 
 div.container-fb{
@@ -301,20 +318,18 @@ div.tamanio{
     color: #fff;
 } */
 
-div.imagenUno,
-div.imagenDos,
-div.imagenTres{
+div.imagenCarrusel{
     height: 100%;
-    /* background-color:#2f3136; */
-
 }
 
-div.imagenUno img,
-div.imagenDos img,
-div.imagenTres img{
+div.imagenCarrusel img{
     width: 100%;
 }
 
+div.historia{
+    width: 100%;
+    height: 100%;
+}
 /* 
 img.carrusel{
     width: 1263px; 
