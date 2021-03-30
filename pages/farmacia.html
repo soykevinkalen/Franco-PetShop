@@ -56,6 +56,24 @@
         <button class="btn btn-danger boton-vaciar">Vaciar</button>
       </div>
     </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-smm modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <img class="modalImagen" id="imagenModal" src="" alt="">
+            <div class="modal-body" id="modalBody">    
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="d-flex d-contenedor flex-wrap-reverse">
         <main id="items" class="d-flex flex-wrap main col-9"></main>
         <section class="col-3 carrito">

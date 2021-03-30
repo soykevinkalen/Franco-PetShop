@@ -71,9 +71,29 @@ function filtro(tipo, productos) {
         titulo.textContent = info['nombre']
         let precio = document.createElement('p')
         precio.classList.add('ps-2')
-        precio.textContent = 'Precio: $' + info['precio']            
+        precio.textContent = 'Precio: $' + info['precio']   
+        let stock = document.createElement('p')
+        stock.classList.add('ps-2')
+        stock.textContent = 'STOCK: '+info['stock']+' UNIDADES'
+        stock.setAttribute('id', 'stock'+info['_id'])
+        let descripcionModal = document.createElement('button');
+        descripcionModal.textContent = 'Descripción';
+        descripcionModal.classList.add('btn', 'btn-primary', 'btn-sm')
+        descripcionModal.setAttribute('type', 'button')
+        descripcionModal.setAttribute('data-bs-toggle', 'modal')
+        descripcionModal.setAttribute('data-bs-target', '#staticBackdrop')
+        descripcionModal.setAttribute('id', 'desc' + info['_id'])
+        descripcionModal.addEventListener('click', (e)=>{
+            let productoModal = data.response.find(elemento => 'desc'+elemento['_id'] === e.target.id)
+            let tituloModal = document.getElementById('staticBackdropLabel')
+            tituloModal.textContent = productoModal.nombre
+            let imagenModal = document.getElementById('imagenModal')
+            imagenModal.src = productoModal.imagen
+            let bodyModal = document.getElementById('modalBody')
+            bodyModal.textContent = productoModal.descripcion
+        })
         let boton = document.createElement('button');
-        boton.classList.add('btn', 'btn-primary');
+        boton.classList.add('btn', 'btn-primary', 'btn-sm', 'mt-1');
         boton.textContent = 'Comprar';
         boton.setAttribute('id', info['_id']);
         boton.addEventListener('click', (e)=>{
@@ -83,61 +103,75 @@ function filtro(tipo, productos) {
             guardarCarritoEnLocalStorage();
         });
         let deshacer = document.createElement('button');
-        deshacer.classList.add('btn', 'btn-primary','mt-2');
+        deshacer.classList.add('btn', 'btn-primary','mt-1', 'btn-sm');
         deshacer.textContent = 'Deshacer compra';
         deshacer.setAttribute('id','d'+info['_id']);
         let id = null
         let nuevoLocalStorage = []
         let pos = null 
         deshacer.addEventListener('click', (e)=>{
-            id = carrito.filter(producto => 'd'+producto === e.target.id)
-            if(id[0]){
+            id = carrito.find(producto => 'd'+producto === e.target.id)
+            if(id){
                 nuevoLocalStorage = [...JSON.parse(localStorage.getItem('carrito'))]
-                pos = nuevoLocalStorage.indexOf(id[0])    
+                pos = nuevoLocalStorage.indexOf(id)    
                 nuevoLocalStorage.splice(pos, 1)
                 carrito = [...nuevoLocalStorage]
                 calcularTotal();
                 renderizarCarrito();
                 guardarCarritoEnLocalStorage();
+            }else{
+                let elemento = baseDeDatos.find(producto => 'd'+producto === e.target.id)
+                console.log(elemento)
             }
         });
         divContainer.appendChild(imagen)
         divContainer.appendChild(titulo)
         if(info['stock'] < 5){
-            // unidad.classList.add('sinStock')
             divContainer.appendChild(unidad)
-            }
+        }
         divContainer.appendChild(precio)
+        divContainer.appendChild(stock)
+        divContainer.appendChild(descripcionModal)
         divContainer.appendChild(boton)
         divContainer.appendChild(deshacer)
         mainItems.appendChild(divContainer)
         }
     }
     function renderizarCarrito() {
-        let carritoSinDuplicados = [...new Set(carrito)];
+        let carritoSinDuplicados = [...new Set(carrito)]
         listaCarrito.forEach(lista =>{
-            lista.textContent = '';
+            lista.textContent = ''
             carritoSinDuplicados.forEach(item => {
-                let producto = data.response.find(elemento => elemento['_id'] == item );
-                let numeroDeUnidades = carrito.reduce((total, itemId) => itemId === item ? total += 1 : total, 0);
-                let li = document.createElement('li');
-                li.classList.add('list-group-item', 'text-right', 'mx-2');
-                li.textContent = `${numeroDeUnidades} x ${producto['nombre']} - $ ${producto['precio']}`;
-                let boton = document.createElement('button');
-                boton.classList.add('btn', 'btn-danger', 'mx-5');
-                boton.textContent = 'Deshacer compras';
-                boton.style.marginLeft = '1rem';
-                boton.setAttribute('item', 'ds'+item);
+                let producto = data.response.find(elemento => elemento['_id'] == item )
+                let numeroDeUnidades = carrito.reduce((total, itemId) => itemId === item ? total += 1 : total, 0)
+                console.log(numeroDeUnidades)
+                let modificaStock = document.getElementById('stock'+producto['_id'])
+                let cuenta = producto.stock - numeroDeUnidades
+                if(cuenta == 1){
+                    modificaStock.textContent =  'STOCK: ' + cuenta + ' UNIDAD'
+                }else if(cuenta == 0 ){
+                    modificaStock.textContent =  'STOCK: SIN STOCK'
+                }else if(cuenta > 1){
+                    modificaStock.textContent =  'STOCK: ' + cuenta + ' UNIDADES'
+                }
+                let li = document.createElement('li')
+                li.classList.add('list-group-item', 'text-right', 'mx-2')
+                li.textContent = `${numeroDeUnidades} x ${producto['nombre']} - $ ${producto['precio']}`
+                let boton = document.createElement('button')
+                boton.classList.add('btn', 'btn-danger', 'mx-5')
+                boton.textContent = 'Deshacer compras'
+                boton.style.marginLeft = '1rem'
+                boton.setAttribute('item', 'ds'+item)
                 boton.addEventListener('click', (e)=>{
-                    let id = e.target.getAttribute('item');
-                    carrito = carrito.filter(carritoId =>'ds'+carritoId !== id );
-                    renderizarCarrito();
-                    calcularTotal();
-                    guardarCarritoEnLocalStorage();
-                });
-                li.appendChild(boton);
-                lista.appendChild(li);
-            });
+                    let id = e.target.getAttribute('item')
+                    carrito = carrito.filter(carritoId =>'ds'+carritoId !== id )
+                    renderizarCarrito()
+                    calcularTotal()
+                    guardarCarritoEnLocalStorage()
+                })
+                li.appendChild(boton)
+                lista.appendChild(li)
+            })
         })
     }
 
@@ -185,6 +219,7 @@ function filtro(tipo, productos) {
     botonVaciar.forEach(boton =>{
         boton.addEventListener('click', ()=>{
             carrito = [];
+            
             renderizarCarrito();
             calcularTotal();
             localStorage.clear();
