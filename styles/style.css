@@ -229,14 +229,16 @@ iframe{
 }
 
 footer div{
-    height: 30vh;
+    min-height: 30vh;
     background: #2ecc68;
+    padding-top: 2em;
+    height: 100%;
 }
 
-footer img{
+/* footer img{
     padding-left: 12px;
     padding-top: 3em;
-}
+} */
 
 div ul.ul-fb li{
     display: block;
@@ -267,11 +269,11 @@ div ul.ul-fb li a:hover{
 div ul.ul-fb{
     padding: 0;
 }
-
+/* 
 footer.inicio div.inicio{
     border-top: 2em solid #2f3136;
     height: 100%;
-}
+} */
 
 div.container-fb{
     padding-top: 48px;

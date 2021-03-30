@@ -60,8 +60,7 @@ function filtro(tipo, productos) {
         let mainItems = document.querySelector('#items');
         for (let info of baseDeDatos) {
         let unidad = document.createElement('p')
-        unidad.textContent = '¡¡¡Ultimas unidades!!!';
-        unidad.classList.add('text-center', 'btn-danger')            
+        unidad.setAttribute('id','u'+info['_id'])           
         let divContainer = document.createElement('div')
         let imagen = document.createElement('img')
         imagen.setAttribute('src', info['imagen'])
@@ -99,13 +98,18 @@ function filtro(tipo, productos) {
         boton.addEventListener('click', (e)=>{
             // let elemento = baseDeDatos.find(dato => dato._id == e.target.id)
             let stock = document.getElementById('stock'+e.target.id)
-            let textoArray = stock.textContent
-            if(textoArray.indexOf('SIN STOCK') == -1){
-                console.log(textoArray)
+            let texto = stock.textContent
+            if(texto.indexOf('SIN STOCK') == -1){
+                console.log(texto)
                 carrito.push(e.target.getAttribute('id'))
                 calcularTotal();
                 renderizarCarrito();
                 guardarCarritoEnLocalStorage();
+                if(parseInt(texto.split(' ')[1]) <= 5){
+                    let cartel = document.getElementById('u'+e.target.id)
+                    cartel.textContent = '¡¡¡Ultimas unidades!!!'
+                    cartel.classList.add('text-center', 'btn-danger') 
+                }
             }
         });
         let deshacer = document.createElement('button');
@@ -116,6 +120,14 @@ function filtro(tipo, productos) {
         let nuevoLocalStorage = []
         let pos = null 
         deshacer.addEventListener('click', (e)=>{
+        // FALTA QUE CUANDO DESAGA LA COMPRA SAQUE EL CARTEL
+            let stock = document.getElementById('stock'+e.target.id.slice(1))
+            let texto = stock.textContent
+            if(parseInt(texto.split(' ')[1]) >= 4){
+                let cartel = document.getElementById('u'+e.target.id.slice(1))
+                cartel.textContent = ''
+                cartel.classList.remove('text-center', 'btn-danger') 
+            }
             id = carrito.find(producto => 'd'+producto === e.target.id)
             if(id){
                 nuevoLocalStorage = [...JSON.parse(localStorage.getItem('carrito'))]
@@ -135,8 +147,10 @@ function filtro(tipo, productos) {
         divContainer.appendChild(imagen)
         divContainer.appendChild(titulo)
         if(info['stock'] < 5){
-            divContainer.appendChild(unidad)
+            unidad.textContent = '¡¡¡Últimas unidades!!!'
+            unidad.classList.add('text-center', 'btn-danger') 
         }
+        divContainer.appendChild(unidad)
         divContainer.appendChild(precio)
         divContainer.appendChild(stock)
         divContainer.appendChild(descripcionModal)
@@ -157,11 +171,14 @@ function filtro(tipo, productos) {
                 let cuenta = producto.stock - numeroDeUnidades
                 if(cuenta == 1){
                     modificaStock.textContent =  'STOCK: ' + cuenta + ' UNIDAD'
+                    modificaStock.classList.remove('btn-danger')
                 }else if(cuenta == 0 ){
                     modificaStock.textContent =  'STOCK: SIN STOCK'
+                    modificaStock.classList.add('btn-danger')
                 }else if(cuenta > 1){
                     modificaStock.textContent =  'STOCK: ' + cuenta + ' UNIDADES'
                 }
+                
                 let li = document.createElement('li')
                 li.classList.add('list-group-item', 'text-right', 'mx-2')
                 li.textContent = `${numeroDeUnidades} x ${producto['nombre']} - $ ${producto['precio']}`
@@ -175,7 +192,13 @@ function filtro(tipo, productos) {
                     console.log(id)
                     let object = baseDeDatos.find(dato => 'ds'+dato._id == id)
                     let stock = document.getElementById('stock'+object._id)
+                    stock.classList.remove('btn-danger')
                     stock.textContent = object.stock == 1? 'STOCK: '+object.stock+' UNIDAD' : 'STOCK: '+object.stock+' UNIDADES'
+                    if(object.stock > 4){
+                        let cartel = document.getElementById('u'+object._id)
+                        cartel.textContent = ''
+                        cartel.classList.remove('text-center', 'btn-danger')
+                    }
                     carrito = carrito.filter(carritoId =>'ds'+carritoId !== id )
                     renderizarCarrito()
                     calcularTotal()
@@ -237,6 +260,12 @@ function filtro(tipo, productos) {
                     let stock = document.getElementById('stock'+id)
                     let object = baseDeDatos.find(dato => dato._id == id)
                     stock.textContent = object.stock == 1? 'STOCK: '+object.stock+' UNIDAD' : 'STOCK: '+object.stock+' UNIDADES'
+                    stock.classList.remove('btn-danger')
+                    if(object.stock > 4){
+                        let cartel = document.getElementById('u'+object._id)
+                        cartel.textContent = ''
+                        cartel.classList.remove('text-center', 'btn-danger')
+                    }
                 })
             }
             renderizarCarrito();
