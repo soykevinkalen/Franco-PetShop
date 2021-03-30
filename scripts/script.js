@@ -97,10 +97,16 @@ function filtro(tipo, productos) {
         boton.textContent = 'Comprar';
         boton.setAttribute('id', info['_id']);
         boton.addEventListener('click', (e)=>{
-            carrito.push(e.target.getAttribute('id'))
-            calcularTotal();
-            renderizarCarrito();
-            guardarCarritoEnLocalStorage();
+            // let elemento = baseDeDatos.find(dato => dato._id == e.target.id)
+            let stock = document.getElementById('stock'+e.target.id)
+            let textoArray = stock.textContent
+            if(textoArray.indexOf('SIN STOCK') == -1){
+                console.log(textoArray)
+                carrito.push(e.target.getAttribute('id'))
+                calcularTotal();
+                renderizarCarrito();
+                guardarCarritoEnLocalStorage();
+            }
         });
         let deshacer = document.createElement('button');
         deshacer.classList.add('btn', 'btn-primary','mt-1', 'btn-sm');
@@ -116,12 +122,14 @@ function filtro(tipo, productos) {
                 pos = nuevoLocalStorage.indexOf(id)    
                 nuevoLocalStorage.splice(pos, 1)
                 carrito = [...nuevoLocalStorage]
+                if(!carrito.length || nuevoLocalStorage.indexOf(id) === -1){
+                    let elemento = baseDeDatos.find(dato => dato._id == id)
+                    let stock = document.getElementById('stock'+id)
+                    stock.textContent =elemento.stock == 1? 'STOCK: '+elemento.stock+' UNIDAD' : 'STOCK: '+elemento.stock+' UNIDADES'
+                }
                 calcularTotal();
                 renderizarCarrito();
                 guardarCarritoEnLocalStorage();
-            }else{
-                let elemento = baseDeDatos.find(producto => 'd'+producto === e.target.id)
-                console.log(elemento)
             }
         });
         divContainer.appendChild(imagen)
@@ -164,6 +172,10 @@ function filtro(tipo, productos) {
                 boton.setAttribute('item', 'ds'+item)
                 boton.addEventListener('click', (e)=>{
                     let id = e.target.getAttribute('item')
+                    console.log(id)
+                    let object = baseDeDatos.find(dato => 'ds'+dato._id == id)
+                    let stock = document.getElementById('stock'+object._id)
+                    stock.textContent = object.stock == 1? 'STOCK: '+object.stock+' UNIDAD' : 'STOCK: '+object.stock+' UNIDADES'
                     carrito = carrito.filter(carritoId =>'ds'+carritoId !== id )
                     renderizarCarrito()
                     calcularTotal()
@@ -219,7 +231,14 @@ function filtro(tipo, productos) {
     botonVaciar.forEach(boton =>{
         boton.addEventListener('click', ()=>{
             carrito = [];
-            
+            if(localStorage.getItem('carrito')){
+                let nuevoLocalStorage = [...JSON.parse(localStorage.getItem('carrito'))]
+                nuevoLocalStorage.forEach(id => {
+                    let stock = document.getElementById('stock'+id)
+                    let object = baseDeDatos.find(dato => dato._id == id)
+                    stock.textContent = object.stock == 1? 'STOCK: '+object.stock+' UNIDAD' : 'STOCK: '+object.stock+' UNIDADES'
+                })
+            }
             renderizarCarrito();
             calcularTotal();
             localStorage.clear();
