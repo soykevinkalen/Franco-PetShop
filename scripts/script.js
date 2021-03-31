@@ -27,7 +27,7 @@
                     showConfirmButton: false,
                     timer: 1500
                   })
-                setTimeout(function(){ window.location.href = "http://127.0.0.1:5500/index.html";},1800);                
+                setTimeout(function(){ window.location.href = "http://127.0.0.1:5501/index.html";},1800);                
             }
             form.classList.add('was-validated')
         }, false)
@@ -39,7 +39,6 @@ function filtro(tipo, productos) {
     return array;
 }
 
-// if(document.getElementById("juguetes") || document.getElementById('farmacia')){
   fetch(`https://apipetshop.herokuapp.com/api/articulos`, {
       method: 'GET'
   })
@@ -51,10 +50,7 @@ function filtro(tipo, productos) {
     const listaCarrito = document.querySelectorAll('.todosLosProductos');
     const spanTotal = document.querySelectorAll('.total');
     const botonVaciar = document.querySelectorAll('.boton-vaciar');
-    // cargarCarritoDeLocalStorage();
-    // renderItems();
-    // calcularTotal();
-    // renderizarCarrito();
+    const botonPagar = document.querySelectorAll('.boton-pagar')
 
     function renderItems() {
         let mainItems = document.querySelector('#items');
@@ -71,10 +67,6 @@ function filtro(tipo, productos) {
         let precio = document.createElement('p')
         precio.classList.add('ps-2')
         precio.textContent = 'Precio: $' + info['precio']   
-        let stock = document.createElement('p')
-        stock.classList.add('ps-2')
-        stock.textContent = 'STOCK: '+info['stock']+' UNIDADES'
-        stock.setAttribute('id', 'stock'+info['_id'])
         let descripcionModal = document.createElement('button');
         descripcionModal.textContent = 'Descripción';
         descripcionModal.classList.add('btn', 'btn-primary', 'btn-sm')
@@ -96,21 +88,10 @@ function filtro(tipo, productos) {
         boton.textContent = 'Comprar';
         boton.setAttribute('id', info['_id']);
         boton.addEventListener('click', (e)=>{
-            // let elemento = baseDeDatos.find(dato => dato._id == e.target.id)
-            let stock = document.getElementById('stock'+e.target.id)
-            let texto = stock.textContent
-            if(texto.indexOf('SIN STOCK') == -1){
-                console.log(texto)
-                carrito.push(e.target.getAttribute('id'))
-                calcularTotal();
-                renderizarCarrito();
-                guardarCarritoEnLocalStorage();
-                if(parseInt(texto.split(' ')[1]) <= 5){
-                    let cartel = document.getElementById('u'+e.target.id)
-                    cartel.textContent = '¡¡¡Ultimas unidades!!!'
-                    cartel.classList.add('text-center', 'btn-danger') 
-                }
-            }
+            carrito.push(e.target.getAttribute('id'))
+            calcularTotal();
+            renderizarCarrito();
+            guardarCarritoEnLocalStorage();
         });
         let deshacer = document.createElement('button');
         deshacer.classList.add('btn', 'btn-primary','mt-1', 'btn-sm');
@@ -120,25 +101,12 @@ function filtro(tipo, productos) {
         let nuevoLocalStorage = []
         let pos = null 
         deshacer.addEventListener('click', (e)=>{
-        // FALTA QUE CUANDO DESAGA LA COMPRA SAQUE EL CARTEL
-            let stock = document.getElementById('stock'+e.target.id.slice(1))
-            let texto = stock.textContent
-            if(parseInt(texto.split(' ')[1]) >= 4){
-                let cartel = document.getElementById('u'+e.target.id.slice(1))
-                cartel.textContent = ''
-                cartel.classList.remove('text-center', 'btn-danger') 
-            }
             id = carrito.find(producto => 'd'+producto === e.target.id)
             if(id){
                 nuevoLocalStorage = [...JSON.parse(localStorage.getItem('carrito'))]
                 pos = nuevoLocalStorage.indexOf(id)    
                 nuevoLocalStorage.splice(pos, 1)
                 carrito = [...nuevoLocalStorage]
-                if(!carrito.length || nuevoLocalStorage.indexOf(id) === -1){
-                    let elemento = baseDeDatos.find(dato => dato._id == id)
-                    let stock = document.getElementById('stock'+id)
-                    stock.textContent =elemento.stock == 1? 'STOCK: '+elemento.stock+' UNIDAD' : 'STOCK: '+elemento.stock+' UNIDADES'
-                }
                 calcularTotal();
                 renderizarCarrito();
                 guardarCarritoEnLocalStorage();
@@ -152,7 +120,6 @@ function filtro(tipo, productos) {
         }
         divContainer.appendChild(unidad)
         divContainer.appendChild(precio)
-        divContainer.appendChild(stock)
         divContainer.appendChild(descripcionModal)
         divContainer.appendChild(boton)
         divContainer.appendChild(deshacer)
@@ -166,44 +133,59 @@ function filtro(tipo, productos) {
             carritoSinDuplicados.forEach(item => {
                 let producto = data.response.find(elemento => elemento['_id'] == item )
                 let numeroDeUnidades = carrito.reduce((total, itemId) => itemId === item ? total += 1 : total, 0)
-                console.log(numeroDeUnidades)
-                let modificaStock = document.getElementById('stock'+producto['_id'])
-                let cuenta = producto.stock - numeroDeUnidades
-                if(cuenta == 1){
-                    modificaStock.textContent =  'STOCK: ' + cuenta + ' UNIDAD'
-                    modificaStock.classList.remove('btn-danger')
-                }else if(cuenta == 0 ){
-                    modificaStock.textContent =  'STOCK: SIN STOCK'
-                    modificaStock.classList.add('btn-danger')
-                }else if(cuenta > 1){
-                    modificaStock.textContent =  'STOCK: ' + cuenta + ' UNIDADES'
-                }
-                
+                let compra = document.createElement('button');
+                compra.classList.add('btn', 'btn-primary', 'btn-sm', 'mt-1');
+                compra.textContent = 'Comprar';
+                compra.setAttribute('type','button')
+                compra.setAttribute('id', producto['_id']);
+                compra.setAttribute("data-bs-dismiss","static")
+                compra.addEventListener('click', (e)=>{
+                    carrito.push(e.target.getAttribute('id'))
+                    calcularTotal();
+                    renderizarCarrito();
+                    guardarCarritoEnLocalStorage();
+                });
+                let deshacer = document.createElement('button');
+                deshacer.classList.add('btn', 'btn-primary','mt-1', 'btn-sm');
+                deshacer.textContent = 'Deshacer compra';
+                deshacer.setAttribute('type','button')
+                deshacer.setAttribute('id','d'+producto['_id']);
+                deshacer.setAttribute("data-bs-dismiss","static")
+
+                let id = null
+                let nuevoLocalStorage = []
+                let pos = null 
+                deshacer.addEventListener('click', (e)=>{
+                    id = carrito.find(producto => 'd'+producto === e.target.id)
+                    if(id){
+                        nuevoLocalStorage = [...JSON.parse(localStorage.getItem('carrito'))]
+                        pos = nuevoLocalStorage.indexOf(id)    
+                        nuevoLocalStorage.splice(pos, 1)
+                        carrito = [...nuevoLocalStorage]
+                        calcularTotal();
+                        renderizarCarrito();
+                        guardarCarritoEnLocalStorage();
+                    }
+                });
                 let li = document.createElement('li')
-                li.classList.add('list-group-item', 'text-right', 'mx-2')
+                li.classList.add('list-group-item', 'text-right', 'mx-2','d-flex', 'flex-column','justify-content-center')
                 li.textContent = `${numeroDeUnidades} x ${producto['nombre']} - $ ${producto['precio']}`
                 let boton = document.createElement('button')
-                boton.classList.add('btn', 'btn-danger', 'mx-5')
+                boton.classList.add('btn', 'btn-danger', 'mt-1')
                 boton.textContent = 'Deshacer compras'
-                boton.style.marginLeft = '1rem'
+                boton.setAttribute('type','button')
                 boton.setAttribute('item', 'ds'+item)
+                boton.setAttribute("data-bs-dismiss","static")
+
                 boton.addEventListener('click', (e)=>{
                     let id = e.target.getAttribute('item')
-                    console.log(id)
-                    let object = baseDeDatos.find(dato => 'ds'+dato._id == id)
-                    let stock = document.getElementById('stock'+object._id)
-                    stock.classList.remove('btn-danger')
-                    stock.textContent = object.stock == 1? 'STOCK: '+object.stock+' UNIDAD' : 'STOCK: '+object.stock+' UNIDADES'
-                    if(object.stock > 4){
-                        let cartel = document.getElementById('u'+object._id)
-                        cartel.textContent = ''
-                        cartel.classList.remove('text-center', 'btn-danger')
-                    }
                     carrito = carrito.filter(carritoId =>'ds'+carritoId !== id )
                     renderizarCarrito()
                     calcularTotal()
                     guardarCarritoEnLocalStorage()
                 })
+                li.appendChild(deshacer)
+                li.appendChild(compra)
                 li.appendChild(boton)
                 lista.appendChild(li)
             })
@@ -222,7 +204,6 @@ function filtro(tipo, productos) {
                 }
             }
             total = total + producto[0]['precio'];
-            console.log(total)
         }
         let totalDosDecimales = total.toFixed(2);
         spanTotal.forEach(span =>{
@@ -254,30 +235,21 @@ function filtro(tipo, productos) {
     botonVaciar.forEach(boton =>{
         boton.addEventListener('click', ()=>{
             carrito = [];
-            if(localStorage.getItem('carrito')){
-                let nuevoLocalStorage = [...JSON.parse(localStorage.getItem('carrito'))]
-                nuevoLocalStorage.forEach(id => {
-                    let stock = document.getElementById('stock'+id)
-                    let object = baseDeDatos.find(dato => dato._id == id)
-                    stock.textContent = object.stock == 1? 'STOCK: '+object.stock+' UNIDAD' : 'STOCK: '+object.stock+' UNIDADES'
-                    stock.classList.remove('btn-danger')
-                    if(object.stock > 4){
-                        let cartel = document.getElementById('u'+object._id)
-                        cartel.textContent = ''
-                        cartel.classList.remove('text-center', 'btn-danger')
-                    }
-                })
-            }
             renderizarCarrito();
             calcularTotal();
             localStorage.clear();
         });
     })
+    botonPagar.forEach(boton =>{
+        boton.addEventListener('click', ()=>{
+            carrito = [];
+            renderizarCarrito();
+            calcularTotal();
+            localStorage.clear();
+            setTimeout(function(){ window.location.href = "http://127.0.0.1:5501/index.html";},500);                
+        });
+    })
 
     cargarCarritoDeLocalStorage();
-    // renderItems();
-    // calcularTotal();
-    // renderizarCarrito();
     })
     .catch(error => console.log(error))
-// }
