@@ -59,21 +59,13 @@ img.imgnav{
     padding-left: 2em;
 }
 nav{
-    /* background-color:#fff; */
     transition: all 1s;
 }
 
 nav img, footer img{
-    /* padding-right: 5vw; */
     filter: brightness(2%)
 }
 
-/* nav div div div{
-    width: 30vw;
-    display: flex;
-    justify-content: space-between;
-
-} */
 li button.navboton{
     font-size: 1.4em!important;
 }
@@ -82,7 +74,6 @@ nav div div ul li a{
     color: rgb(0, 0, 0);
     text-decoration: none;
     font-size: 1.4em;
-    /* font-weight:; */
     background-image: linear-gradient(currentColor, currentColor);
     background-position: 0% 100%;
     background-repeat: no-repeat;
@@ -97,13 +88,16 @@ nav div div ul li a:focus{
     background-size: 100% 2px;
 
 }
+
+div.div-form{
+    margin-left: 10em;
+}
 @media (max-width: 630px){
 
     main.mainContacto div.div-form{
         order: -1;
     }
     .d-contenedor{
-        flex-direction: column-reverse;
         align-items: center;
         justify-content: center;
     }
@@ -122,19 +116,12 @@ nav div div ul li a:focus{
 }
 
 @media (min-width: 630px){
-    main.main img{
-        max-width: 15vw;
-    }
-    main.main div{
+    div.main div{
         max-width: 15vw;
     }
     
 }
 
-/* main.mainContacto textarea,
-.input-nombre, .input-apellido, .input-telefono{
-    width: 70%;
-} */
 .colores{
     background-color: #2f3136;
 }
@@ -148,7 +135,6 @@ nav div div ul li a:focus{
     }
     .principal{
         text-align: center;
-        /* font-size: 3.5em; */
         transition: all 1s;
     }
     div.contenedor{
@@ -174,9 +160,16 @@ h1.principal{
     color: #2ecc68;
 }
 
+main.mainContacto{
+    padding: 4em 0px;
+    background-color: #98a79d;
+    background-image: url('../assets/120119.jpg');
+    background-size: cover;
+     background-repeat: no-repeat;
+    background-position-y: -280px;
+}
 
-main.mainContacto,
-main.main{
+div.main{
     padding: 4em 0px;
     background-color: #2f3136;
     color: #2ecc68;
@@ -187,19 +180,31 @@ main.mainContacto textarea{
     background-color: #eee;
 }
 
-main.main{
+div.imagenCarta{
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 40vh;
+    min-width: 100%;
+    border-radius: 5px 5px 0px 0px;
+}
+
+div.imagenCarrito{
+    height: 20vh;
+    width: 35%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+div.main{
     padding-left: 2.5em;
 }
 
-main.main img{
-    min-width: 15vw;
-}
-main.main div{
+div.main div.carta{
     display: flex;
     flex-direction: column;
     margin: 1em;
-    min-width: 15vw;
-    box-shadow: 0 0 20px #2ecc68;
+    min-width: 20vw;
+    box-shadow: 0 0 20px #98a79d;
     border-radius: 5px;
 }
 
@@ -210,12 +215,22 @@ section.carrito{
     
 }
 
-.modalImagen{
-    width: 50%;
+#paginaPrincipal{
+    background-color: #2f3136;
 }
 
-.d-contenedor{
-    margin-right: 0px!important;
+main.historia{
+    margin: 5em 0px;
+    background-image: url('../assets/Historia.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50vw;
+}
+.comentarios{
+    max-height: 5vh;
+}
+.modalImagen{
+    width: 50%;
 }
 
 footer{
@@ -228,17 +243,11 @@ iframe{
     width: 100%;
 }
 
-footer div{
-    min-height: 30vh;
-    background: #2ecc68;
+footer div.inicio{
+    background: #cdbbb1;
     padding-top: 2em;
     height: 100%;
 }
-
-/* footer img{
-    padding-left: 12px;
-    padding-top: 3em;
-} */
 
 div ul.ul-fb li{
     display: block;
@@ -251,82 +260,97 @@ div ul.ul-fb li{
 div ul.ul-fb li a{
     display: block;
     padding: 0 10px;
-    background: #0572e6;
     color: #fff;
     line-height: 50px;
     font-size: 18px;
-    /* box-shadow: 0 3px 5px 0px rgba(0,0,0,.2); */
     transition: .2s;
 }
 
 div ul.ul-fb li a:hover{
     transform: translateY(-3px) scale(1.05);
-    /* box-shadow: 0 5px 5px 0px rgba(0, 0, 0, -4); */
-    /* filter: none; */
 }
 
 
 div ul.ul-fb{
     padding: 0;
 }
-/* 
-footer.inicio div.inicio{
-    border-top: 2em solid #2f3136;
-    height: 100%;
-} */
 
-div.container-fb{
-    padding-top: 48px;
+footer nav{
+    padding: 0;
+}
+
+.facebook{
+    background: #0572e6;
+}
+
+.instagram{
+    background: #f09433; 
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+
 }
 
 div.div-nav{
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-form.contacto{
-    padding-left: 2em;
-}
-
 .cartaGrande{
     width: 18rem;
-    /* height: 70vh; */
 }
 
 div.tamanio{
     max-width: 43vw;
 }
 
-/* .sinStock{
-    background-color: #dc3545;
-    color: white;
-} */
-
 .nombre{
     height: 50%;
+    padding: 0px 0.5vw;
 }
 
-/* main.inicio{
-    border: 4em solid black;
-} */
-
-/* .div-jugueteria,
-.div-farmacia {
-    display:inline-block;
-    position:relative;
-} */
-
-
-
-/* .desvanecer:hover {
-    opacity: 0.5;
-    -webkit-transition: opacity 500ms;
-    -moz-transition: opacity 500ms;
-    -o-transition: opacity 500ms;
-    -ms-transition: opacity 500ms;
-    transition: opacity 500ms;
-    z-index: 0;
-    color: #fff;
-} */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #eee;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  #main {
+    transition: margin-left .5s;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
 
 div.imagenCarrusel{
     height: 100%;
@@ -345,17 +369,3 @@ div.historia{
     width: 100%;
     height: 100%;
 }
-/* 
-img.carrusel{
-    width: 1263px; 
-} */
-
-/* <p>
-          Franco es la primera y única cadena de tiendas del país especializada en productos y servicios para mascotas. Te damos una experiencia diferente de compra, ofreciendo productos y servicios de alta calidad que cumplen con las necesidades de las mascotas y la satisfacción de sus dueños.
-        </p>
-        <p>
-          En Franco reconocemos a las mascotas como un miembro más de la familia, a las que debemos cuidar, proteger, y brindar el mejor cuidado para que tengan una excelente calidad de vida. Para ello ofrecemos la más amplia variedad en accesorios y farmacia.
-        </p> */
-
-
-        /* Somos el 1° Pet Shop On line de Argentina y ofrecemos una experiencia cómoda en las compras para tus mascotas. Podes comprar las 24hs desde tu smart phone o compu. Tenemos la mejor selección de productos que no se consiguen en cualquier pet shop */

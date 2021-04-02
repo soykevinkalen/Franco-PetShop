@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="shortcut icon" type="image/jpg" href="./assets/favicon.ico"/>
     <title>Franco - Pet Shop</title>
 </head>
 <body id='paginaPrincipal'>
@@ -31,9 +32,7 @@
               <a class="nav-link" aria-current="page" href="./pages/contacto.html">Contacto</a>
             </li>
             <li class="nav-item">
-              <button class="btn btn-primary navboton" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                Carrito              
-              </button>
+              <span style="font-size:40px;cursor:pointer" onclick="openNav()">&#128722;</span>
             </li>
           </ul>
         </div>
@@ -44,83 +43,66 @@
       <h1 class="principal">¡Guau guau guau! No se preocupe, ellos entienden.</h1>
     </div>
   </header>
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-      <h2 id="offcanvasRightLabel">Carrito</h2>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <hr>
-      <ul class="list-group todosLosProductos"></ul>
-      <hr>
+  <div id="main"></div>
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <h2 class="ps-4">Carrito</h2>
+    <hr>
+    <ul class="todosLosProductos"></ul>
+    <hr>
+    <div class="ps-4 pb-2">
       <p class="text-right">Total: $ <span id="total" class="total"></span></p>
       <button class="btn btn-danger boton-vaciar">Vaciar</button>
       <button class="btn btn-success boton-pagar">Pagar</button>
     </div>
   </div>
-  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  <div class="position-fixed top-0 end-0" style="z-index: 5">
+    <div id="liveToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+        <div class="toast-body text-center">
+            
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
     </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active imagenCarrusel">
-        <img src="./assets/c (1).jpg" class="d-block carrusel" alt="...">
-        <div class="carousel-caption d-md-block">
-          <div class="contenedor">
-            <a href="./pages/juguetes.html"><h5 class="carrusel">Jugueteria</h5></a>
-            <p class="pCarrusel">Los mejores juguetes para tu amigo</p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item imagenCarrusel">
-        <img src="./assets/c (2).jpg" class="d-block carrusel" alt="...">
-        <div class="carousel-caption d-md-block">
-          <div class="contenedor">
-            <a href="./pages/farmacia.html"><h5 class="carrusel">Farmacia</h5></a>
-            <p class="pCarrusel">Contamos con una amplia gama de medicinas</p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item imagenCarrusel">
-        <img src="./assets/Historia.png" class="d-block carrusel" alt="...">
-        <div class="carousel-caption d-md-block">
-          <div class="contenedor">
-            <a href="./pages/farmacia.html"><h5 class="carrusel"></h5></a>
-            <p class="pCarrusel"></p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item imagenCarrusel">
-        <img src="./assets/c (3).jpg" class="d-block carrusel" alt="...">
-        <div class="carousel-caption d-md-block">
-          <div class="contenedor">
-            <a href="./pages/contacto.html"><h5 class="carrusel">Contacto</h5></a>
-            <p class="pCarrusel">Para mantenernos siempre en contacto</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
+  <main class="historia">
+
+  </main>
+  
   <footer class="inicio">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.6871479078936!2d-58.43256788509515!3d-34.61207176544653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcca429815227f%3A0x5d302e497c2cda87!2sR%C3%ADo%20de%20Janeiro%20300%2C%20C1405%20CCB%2C%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1616617970791!5m2!1ses-419!2sar" width="1263" height="400" allowfullscreen="" loading="lazy"></iframe>
-    <div class="d-flex justify-content-around align-items-center inicio">
+    <div class="d-flex justify-content-around inicio">
       <div>
-        <img src="./assets/FRANCO (4) (2).png" alt="">
+        <img src="../assets/FRANCO (4) (2).png" alt="">
       </div>
+      <nav class="navbar-expand-lg">
+        <div class="align-items-center d-flex justify-content-around">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerDemo01">
+            <ul class="navbar-nav d-flex align-items-center">
+              <li class="nav-item">
+                <a class="nav-link" href="./pages/juguetes.html">Jugueteria</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" aria-current="page" href="./pages/farmacia.html">Farmacia</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" aria-current="page" href="./pages/contacto.html">Contacto</a>
+              </li>
+              <li class="nav-item">
+                <span style="font-size:40px;cursor:pointer" onclick="openNav()">&#128722;</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
       <div class="container-fb">
-        <ul class="ul-fb">
+        <h2>Redes sociales</h2>
+        <ul class="ul-fb d-flex justify-content-center">
           <li><a href="https://www.facebook.com/Franco-Pet-shop-101752442015784" class="facebook"><i class="fab fa-facebook-f"></i></a></li>
+          <li><a href="https://www.instagram.com/Franco-Pet-shop" class="instagram"><i class="fab fa-instagram"></i></a></li>
         </ul>
       </div>
     </div>
